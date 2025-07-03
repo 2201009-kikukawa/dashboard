@@ -1,24 +1,26 @@
-# Simple PHP built-in server for Render deployment
+# Production Dockerfile for Render deployment
 FROM php:8.1-cli
 
-# Install PostgreSQL extension
+# Install system dependencies and PHP extensions
 RUN apt-get update && apt-get install -y \
     libpq-dev \
     && docker-php-ext-install pdo pdo_pgsql \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy application files
-COPY . /app
+# Set working directory
 WORKDIR /app
 
-# Create uploads directory
+# Copy application files (excluding files in .dockerignore)
+COPY . /app
+
+# Create uploads directory with proper permissions
 RUN mkdir -p uploads && chmod 755 uploads
 
-# Copy startup script
+# Copy and set up startup script
 COPY start-simple.sh /usr/local/bin/start-simple.sh
 RUN chmod +x /usr/local/bin/start-simple.sh
 
-# Expose port
-EXPOSE $PORT
+# Expose port (will be set by Render via PORT env var)
+EXPOSE 8000
 
 CMD ["/usr/local/bin/start-simple.sh"]

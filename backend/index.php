@@ -131,7 +131,7 @@ if ($method === 'POST' && $path === '/register') {
                 exit();
             }
 
-            $target_dir = "uploads/";
+            $target_dir = __DIR__ . "/uploads/";
             if (!is_dir($target_dir)) {
                 mkdir($target_dir, 0755, true);
             }
@@ -141,7 +141,8 @@ if ($method === 'POST' && $path === '/register') {
             $target_file = $target_dir . $filename;
             
             if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
-                $image_path = $target_file;
+                // Store relative path for URL generation
+                $image_path = "uploads/" . $filename;
             } else {
                 http_response_code(500);
                 echo json_encode(['error' => 'Failed to upload image']);

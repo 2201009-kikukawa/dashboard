@@ -1,0 +1,8 @@
+# Ignore unnecessary files during Docker build
+Dockerfile*
+*.md
+apache.conf
+nginx.conf
+start-render.sh
+start.sh
+supervisord.conf
