@@ -1,0 +1,36 @@
+.App {
+  text-align: center;
+}
+
+.App-header {
+  background-color: #282c34;
+  padding: 20px;
+  color: white;
+}
+
+.message-form {
+  margin: 20px;
+}
+
+.message-form input,
+.message-form textarea {
+  width: 50%;
+  padding: 10px;
+  margin: 5px;
+}
+
+.message-list {
+  margin: 20px;
+}
+
+.message {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin: 10px;
+  text-align: left;
+}
+
+.message-header {
+  font-size: 0.8em;
+  color: #555;
+}

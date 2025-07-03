@@ -1,0 +1,41 @@
+# Multi-stage build for production deployment
+FROM nginx:1.21-alpine as nginx-base
+
+# PHP-FPM stage
+FROM php:8.1-fpm-alpine as php-stage
+
+WORKDIR /var/www/html
+
+# Install PostgreSQL dependencies
+RUN apk add --no-cache postgresql-dev
+
+# Install PHP extensions
+RUN docker-php-ext-install pdo pdo_pgsql
+
+# Copy PHP source code
+COPY . /var/www/html
+
+# Final stage - Nginx with PHP-FPM
+FROM nginx:1.21-alpine
+
+# Install PHP-FPM
+RUN apk add --no-cache php81 php81-fpm php81-pdo php81-pdo_pgsql php81-session
+
+# Copy nginx configuration
+COPY nginx.conf /etc/nginx/nginx.conf
+
+# Copy PHP application
+COPY --from=php-stage /var/www/html /var/www/html
+
+# Create necessary directories and set permissions
+RUN mkdir -p /var/www/html/uploads && \
+    chown -R nginx:nginx /var/www/html && \
+    chmod -R 755 /var/www/html
+
+# Copy startup script
+COPY start.sh /start.sh
+RUN chmod +x /start.sh
+
+EXPOSE 80
+
+CMD ["/start.sh"]

@@ -1,0 +1,42 @@
+# Dependencies
+node_modules/
+vendor/
+
+# Environment variables
+.env
+.env.local
+.env.production
+
+# Logs
+*.log
+npm-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+
+# Coverage directory used by tools like istanbul
+coverage/
+
+# Docker
+.docker/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+
+# Backend uploads (local development)
+backend/uploads/*
+!backend/uploads/.gitkeep
+
+# Database data
+postgres_data/
+
+# Build directories
+build/
+dist/
