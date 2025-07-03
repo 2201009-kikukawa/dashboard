@@ -1,4 +1,4 @@
-# Simple PHP built-in server for Render deployment
+# Alternative: Simple PHP built-in server for Render
 FROM php:8.1-cli
 
 # Install PostgreSQL extension
@@ -14,11 +14,8 @@ WORKDIR /app
 # Create uploads directory
 RUN mkdir -p uploads && chmod 755 uploads
 
-# Copy startup script
-COPY start-simple.sh /usr/local/bin/start-simple.sh
-RUN chmod +x /usr/local/bin/start-simple.sh
-
 # Expose port
 EXPOSE $PORT
 
-CMD ["/usr/local/bin/start-simple.sh"]
+# Use PHP built-in server
+CMD php -S 0.0.0.0:${PORT:-8000} -t /app
